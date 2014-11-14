@@ -9,7 +9,6 @@ RSpec.describe 'servers/edit', type: :view do
 
   it 'renders the edit server form' do
     render
-
     assert_select 'form[action=?][method=?]', server_path(@server), 'post' do
 
       assert_select 'input#server_name[name=?]', 'server[name]'
