@@ -12,7 +12,13 @@ gem 'bootstrap-will_paginate'
 group :development, :test do
   gem 'sqlite3' # Use sqlite3 as the database for Active Record
   gem 'rspec-rails'
+
+  # http://qiita.com/tamano/items/5710586741c8ae033ac5
   gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'pry-stack_explorer'
+  gem 'hirb'
+  gem 'hirb-unicode'
 end
 
 group :test do
