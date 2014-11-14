@@ -1,18 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe "servers/new", :type => :view do
+RSpec.describe 'servers/new', type: :view do
   before(:each) do
     assign(:server, Server.new(
-      :name => "MyString"
+      name: 'MyString'
     ))
   end
 
-  it "renders new server form" do
+  it 'renders new server form' do
     render
 
-    assert_select "form[action=?][method=?]", servers_path, "post" do
+    assert_select 'form[action=?][method=?]', servers_path, 'post' do
 
-      assert_select "input#server_name[name=?]", "server[name]"
+      assert_select 'input#server_name[name=?]', 'server[name]'
     end
   end
 end

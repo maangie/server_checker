@@ -31,7 +31,7 @@ class AdvisoriesController < ApplicationController
       if @advisory.save
         format.html do
           redirect_to [@server, @advisory],
-                      notice: 'Advisory was successfully created.' 
+                      notice: 'Advisory was successfully created.'
         end
 
         format.json { render :show, status: :created, location: @advisory }
@@ -54,7 +54,7 @@ class AdvisoriesController < ApplicationController
           redirect_to [@server, @advisory],
                       notice: 'Advisory was successfully updated.'
         end
-        
+
         format.json { render :show, status: :ok, location: @advisory }
       else
         format.html { render :edit }
