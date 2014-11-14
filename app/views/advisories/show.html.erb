@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Server:</strong>
+  <%= @advisory.server %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @advisory.email %>
+</p>
+
+<%= link_to 'Edit', edit_advisory_path(@advisory) %> |
+<%= link_to 'Back', advisories_path %>

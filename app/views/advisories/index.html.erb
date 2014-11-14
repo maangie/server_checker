@@ -1,0 +1,27 @@
+<h1>Listing advisories</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Server</th>
+      <th>Email</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @advisories.each do |advisory| %>
+      <tr>
+        <td><%= advisory.server %></td>
+        <td><%= advisory.email %></td>
+        <td><%= link_to 'Show', advisory %></td>
+        <td><%= link_to 'Edit', edit_advisory_path(advisory) %></td>
+        <td><%= link_to 'Destroy', advisory, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Advisory', new_advisory_path %>

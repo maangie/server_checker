@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141114013929) do
+ActiveRecord::Schema.define(version: 20141114015724) do
+
+  create_table "advisories", force: true do |t|
+    t.integer  "server_id"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "advisories", ["server_id"], name: "index_advisories_on_server_id"
 
   create_table "servers", force: true do |t|
     t.string   "name"

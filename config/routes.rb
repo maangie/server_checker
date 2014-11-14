@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :advisories
+
   resources :servers
 
   # The priority is based upon order of creation: first created -> highest priority.
