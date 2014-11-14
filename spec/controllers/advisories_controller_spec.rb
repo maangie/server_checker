@@ -19,7 +19,6 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe AdvisoriesController, type: :controller do
-
   # This should return the minimal set of attributes required to create a valid
   # Advisory. As you add validations to Advisory, be sure to
   # adjust the attributes here as well.
@@ -30,6 +29,8 @@ RSpec.describe AdvisoriesController, type: :controller do
   let(:invalid_attributes) do
     skip('Add a hash of attributes invalid for your model')
   end
+
+  let(:server) { FactoryGirl.create(:server) }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -54,7 +55,7 @@ RSpec.describe AdvisoriesController, type: :controller do
 
   describe 'GET new' do
     it 'assigns a new advisory as @advisory' do
-      get :new, {}, valid_session
+      get :new, { server_id: server.id }, valid_session
       expect(assigns(:advisory)).to be_a_new(Advisory)
     end
   end

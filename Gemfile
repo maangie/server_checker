@@ -20,6 +20,7 @@ group :test do
   gem 'capybara'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'factory_girl_rails'
 end
 
 gem 'sass-rails', '~> 4.0.3' # Use SCSS for stylesheets

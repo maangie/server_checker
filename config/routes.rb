@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :advisories
+
   resources :servers do
     resources :advisories
   end
