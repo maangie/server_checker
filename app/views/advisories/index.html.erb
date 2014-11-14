@@ -16,7 +16,11 @@
         <td><%= advisory.email %></td>
         <td><%= link_to 'Show', advisory %></td>
         <td><%= link_to 'Edit', edit_advisory_path(advisory) %></td>
-        <td><%= link_to 'Destroy', advisory, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+        <td>
+	  <%= link_to('Destroy', advisory, method: :delete,
+		      data: { confirm: 'Are you sure?' }) %>
+	</td>
       </tr>
     <% end %>
   </tbody>
@@ -24,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Advisory', new_advisory_path %>
+<%= link_to 'New Advisory', new_server_advisory_path %>

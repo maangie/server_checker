@@ -1,4 +1,5 @@
 class AdvisoriesController < ApplicationController
+  before_filter :load_advisory
   before_action :set_advisory, only: [:show, :edit, :update, :destroy]
 
   # GET /advisories
@@ -14,7 +15,7 @@ class AdvisoriesController < ApplicationController
 
   # GET /advisories/new
   def new
-    @advisory = Advisory.new
+    @advisory = @server.advisory.build
   end
 
   # GET /advisories/1/edit
@@ -24,15 +25,22 @@ class AdvisoriesController < ApplicationController
   # POST /advisories
   # POST /advisories.json
   def create
-    @advisory = Advisory.new(advisory_params)
+    @advisory = @server.advisories.build(advisory_params)
 
     respond_to do |format|
       if @advisory.save
-        format.html { redirect_to @advisory, notice: 'Advisory was successfully created.' }
+        format.html do
+          redirect_to [@server, @advisory],
+                      notice: 'Advisory was successfully created.' 
+        end
+
         format.json { render :show, status: :created, location: @advisory }
       else
         format.html { render :new }
-        format.json { render json: @advisory.errors, status: :unprocessable_entity }
+
+        format.json do
+          render json: @advisory.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -42,11 +50,18 @@ class AdvisoriesController < ApplicationController
   def update
     respond_to do |format|
       if @advisory.update(advisory_params)
-        format.html { redirect_to @advisory, notice: 'Advisory was successfully updated.' }
+        format.html do
+          redirect_to [@server, @advisory],
+                      notice: 'Advisory was successfully updated.'
+        end
+        
         format.json { render :show, status: :ok, location: @advisory }
       else
         format.html { render :edit }
-        format.json { render json: @advisory.errors, status: :unprocessable_entity }
+
+        format.json do
+          render json: @advisory.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -56,19 +71,29 @@ class AdvisoriesController < ApplicationController
   def destroy
     @advisory.destroy
     respond_to do |format|
-      format.html { redirect_to advisories_url, notice: 'Advisory was successfully destroyed.' }
+      format.html do
+        redirect_to advisories_url,
+                    notice: 'Advisory was successfully destroyed.'
+      end
+
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_advisory
-      @advisory = Advisory.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def advisory_params
-      params.require(:advisory).permit(:server_id, :email)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_advisory
+    @advisory = @server.advisory.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the
+  # white list through.
+  def advisory_params
+    params.require(:advisory).permit(:server_id, :email)
+  end
+
+  def load_advisory
+    @server = Server.find(params[:server_id])
+  end
 end
