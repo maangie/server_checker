@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Server:</strong>
   <%= @advisory.server %>
@@ -10,5 +8,5 @@
   <%= @advisory.email %>
 </p>
 
-<%= link_to 'Edit', edit_advisory_path(@advisory) %> |
-<%= link_to 'Back', advisories_path %>
+<%= link_to 'Edit', edit_server_advisory_path %> |
+<%= link_to 'Back', server_path(@server) %>

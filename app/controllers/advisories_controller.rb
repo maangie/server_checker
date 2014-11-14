@@ -25,7 +25,7 @@ class AdvisoriesController < ApplicationController
   # POST /advisories
   # POST /advisories.json
   def create
-    @advisory = @server.advisories.build(advisory_params)
+    @advisory = @server.advisory.build(advisory_params)
 
     respond_to do |format|
       if @advisory.save
