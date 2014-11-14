@@ -1,34 +1,49 @@
-<h1>Listing advisories</h1>
-
-<table>
+<%- model_class = Advisory -%>
+<div class='page-header'>
+  <h1>
+    <%=t '.title', default: model_class.model_name.human.pluralize.titleize %>
+  </h1>
+</div>
+<table class='table table-striped'>
   <thead>
     <tr>
-      <th>Server</th>
-      <th>Email</th>
-      <th colspan="3"></th>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:server_id) %></th>
+      <th><%= model_class.human_attribute_name(:email) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t('helpers.actions') %></th>
     </tr>
   </thead>
-
   <tbody>
     <% @advisories.each do |advisory| %>
       <tr>
-        <td><%= advisory.server %></td>
+        <td>
+	  <%= link_to advisory.id, server_advisory_path(@server, advisory) %>
+	</td>
+
+        <td><%= advisory.server_id %></td>
         <td><%= advisory.email %></td>
-        <td><%= link_to 'Show', server_advisory_path(@server, advisory) %></td>
-
+        <td><%=l advisory.created_at %></td>
         <td>
-	  <%= link_to 'Edit', edit_server_advisory_path(@server, advisory) %>
-	</td>
+          <%= link_to(t('.edit', default: t('helpers.links.edit')),
+                      edit_server_advisory_path(@server, advisory),
+		      class: 'btn btn-default btn-xs') %>
 
-        <td>
-	  <%= link_to('Destroy', server_advisory_path(@server, advisory),
-		      method: :delete, data: { confirm: 'Are you sure?' }) %>
-	</td>
+          <%= link_to(t('.destroy', :default => t('helpers.links.destroy')),
+		      server_advisory_path(@server, advisory),
+                      method: :delete,
+                      data: {
+		        confirm: t('.confirm',
+				   default: t('helpers.links.confirm',
+					      default: 'Are you sure?'))
+		      },
+                      class: 'btn btn-xs btn-danger') %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Advisory', new_server_advisory_path %>
+<%= link_to(t('.new', default: t('helpers.links.new')),
+	    new_server_advisory_path,
+            class: 'btn btn-primary') %>

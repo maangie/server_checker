@@ -1,24 +1,40 @@
-<%= form_for([@server, @advisory]) do |f| %>
-  <% if @advisory.errors.any? %>
-    <div id="error_explanation">
-      <h2>
-	<%= pluralize(@advisory.errors.count, "error") %>
-	prohibited this advisory from being saved:
-      </h2>
-
-      <ul>
-      <% @advisory.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= form_for(@advisory, html: { class: 'form-horizontal advisory' } do |f| %>
+    <% if @advisory.errors.any? %>
+    <div id='error_expl' class='panel panel-danger'>
+      <div class='panel-heading'>
+        <h3 class='panel-title'>
+	  <%= pluralize(@advisory.errors.count, 'error') %>
+	  prohibited this advisory from being saved:
+	</h3>
+      </div>
+      <div class='panel-body'>
+        <ul>
+        <% @advisory.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
+  <div class='control-group'>
+    <%= f.label :server_id, :class => 'control-label' %>
+    <div class='controls'>
+      <%= f.text_field :server_id, :class => 'form-control' %>
+    </div>
+    <%= error_span(@advisory[:server_id]) %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class='control-group'>
+    <%= f.label :email, :class => 'control-label' %>
+    <div class='controls'>
+      <%= f.text_field :email, :class => 'form-control' %>
+    </div>
+    <%= error_span(@advisory[:email]) %>
   </div>
+
+
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t('helpers.links.cancel')),
+            advisories_path, :class => 'btn btn-default' %>
+
 <% end %>
