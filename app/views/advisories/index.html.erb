@@ -15,7 +15,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @advisories.each do |advisory| %>
+    <% @server.advisory.each do |advisory| %>
       <tr>
         <td>
 	  <%= link_to advisory.id, server_advisory_path(@server, advisory) %>
@@ -45,5 +45,5 @@
 </table>
 
 <%= link_to(t('.new', default: t('helpers.links.new')),
-	    new_server_advisory_path,
+	    new_server_advisory_path(@server),
             class: 'btn btn-primary') %>
