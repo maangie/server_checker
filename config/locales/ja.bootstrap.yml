@@ -13,7 +13,6 @@ ja:
       destroy: "削除"
       new: "作成"
       edit: "編集"
-      advisory: "通知先"
     titles:
       edit: "編集 %{model}"
       save: "保存 %{model}"

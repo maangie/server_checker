@@ -72,7 +72,7 @@ class AdvisoriesController < ApplicationController
     @advisory.destroy
     respond_to do |format|
       format.html do
-        redirect_to advisories_url,
+        redirect_to server_advisories_url(@server),
                     notice: 'Advisory was successfully destroyed.'
       end
 

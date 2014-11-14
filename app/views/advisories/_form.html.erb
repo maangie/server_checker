@@ -1,4 +1,5 @@
-<%= form_for(@advisory, html: { class: 'form-horizontal advisory' } do |f| %>
+<%= form_for([@server, @advisory],
+	     html: { class: 'form-horizontal advisory' }) do |f| %>
     <% if @advisory.errors.any? %>
     <div id='error_expl' class='panel panel-danger'>
       <div class='panel-heading'>
@@ -18,23 +19,22 @@
   <% end %>
 
   <div class='control-group'>
-    <%= f.label :server_id, :class => 'control-label' %>
+    <%= f.label :server_id, class: 'control-label' %>
     <div class='controls'>
-      <%= f.text_field :server_id, :class => 'form-control' %>
+      <%= f.text_field :server_id, class: 'form-control' %>
     </div>
     <%= error_span(@advisory[:server_id]) %>
   </div>
   <div class='control-group'>
-    <%= f.label :email, :class => 'control-label' %>
+    <%= f.label :email, class: 'control-label' %>
     <div class='controls'>
-      <%= f.text_field :email, :class => 'form-control' %>
+      <%= f.text_field :email, class: 'form-control' %>
     </div>
     <%= error_span(@advisory[:email]) %>
   </div>
 
-
-  <%= f.submit nil, :class => 'btn btn-primary' %>
-  <%= link_to t('.cancel', :default => t('helpers.links.cancel')),
-            advisories_path, :class => 'btn btn-default' %>
-
+  <%= f.submit nil, class: 'btn btn-primary' %>
+  <%= link_to(t('.cancel', default: t('helpers.links.cancel')),
+              server_advisories_path(@server, @advisory),
+	      class: 'btn btn-default') %>
 <% end %>

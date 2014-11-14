@@ -23,7 +23,7 @@
 
         <td><%= advisory.server_id %></td>
         <td><%= advisory.email %></td>
-        <td><%=l advisory.created_at %></td>
+        <td><%= l advisory.created_at %></td>
         <td>
           <%= link_to(t('.edit', default: t('helpers.links.edit')),
                       edit_server_advisory_path(@server, advisory),
