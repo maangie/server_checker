@@ -15,6 +15,13 @@ group :development, :test do
   gem 'pry-rails'
 end
 
+group :test do
+  gem 'selenium-webdriver'
+  gem 'capybara'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+end
+
 gem 'sass-rails', '~> 4.0.3' # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
 
