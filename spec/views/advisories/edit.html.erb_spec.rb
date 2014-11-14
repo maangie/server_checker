@@ -9,10 +9,8 @@ RSpec.describe 'advisories/edit', type: :view do
 
   it 'renders the edit advisory form' do
     render
-    assert_select('form[action=?][method=?]',
-                  server_advisory_path(@advisory.server, @advisory),
-                  'post') do
-
+    path = server_advisory_path(@advisory.server, @advisory)
+    assert_select('form[action=?][method=?]', path, 'post') do
       assert_select 'input#advisory_server_id[name=?]', 'advisory[server_id]'
       assert_select 'input#advisory_email[name=?]', 'advisory[email]'
     end
