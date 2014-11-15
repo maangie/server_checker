@@ -109,25 +109,46 @@ RSpec.describe AdvisoriesController, type: :controller do
   describe 'PUT update' do
     describe 'with valid params' do
       let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
+        { email: 'bar@example.com' }
       end
 
       it 'updates the requested advisory' do
-        advisory = Advisory.create! valid_attributes
-        put :update, { server_id: server.id, id: advisory.to_param, advisory: new_attributes }, valid_session
+        advisory = server.advisory.create valid_attributes
+
+        params = {
+          server_id: server.id,
+          id: advisory.to_param,
+          advisory: new_attributes
+        }
+
+        put :update, params, valid_session
         advisory.reload
-        skip('Add assertions for updated state')
+        expect(assigns(:advisory).email).to eq new_attributes[:email]
       end
 
       it 'assigns the requested advisory as @advisory' do
         advisory = server.advisory.create valid_attributes
-        put :update, { server_id: server.id, id: advisory.to_param, advisory: valid_attributes }, valid_session
+
+        params = {
+          server_id: server.id,
+          id: advisory.to_param,
+          advisory: valid_attributes
+        }
+
+        put :update, params, valid_session
         expect(assigns(:advisory)).to eq(advisory)
       end
 
       it 'redirects to the advisory' do
         advisory = server.advisory.create valid_attributes
-        put :update, { server_id: server.id, id: advisory.to_param, advisory: valid_attributes }, valid_session
+
+        params = {
+          server_id: server.id,
+          id: advisory.to_param,
+          advisory: valid_attributes
+        }
+
+        put :update, params, valid_session
         path = "/servers/#{server.id}/advisories/#{server.advisory.last.id}"
         expect(response).to redirect_to(path)
       end
