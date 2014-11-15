@@ -23,11 +23,11 @@ RSpec.describe AdvisoriesController, type: :controller do
   # Advisory. As you add validations to Advisory, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
+    { email: 'foo@example.com' }
   end
 
   let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
+    { email: 'foo@com' }
   end
 
   let(:server) { FactoryGirl.create(:server) }
@@ -39,16 +39,16 @@ RSpec.describe AdvisoriesController, type: :controller do
 
   describe 'GET index' do
     it 'assigns all advisories as @advisories' do
-      advisory = Advisory.create! valid_attributes
-      get :index, {}, valid_session
+      advisory = server.advisory.create valid_attributes
+      get :index, { server_id: server.id }, valid_session
       expect(assigns(:advisories)).to eq([advisory])
     end
   end
 
   describe 'GET show' do
     it 'assigns the requested advisory as @advisory' do
-      advisory = Advisory.create! valid_attributes
-      get :show, { id: advisory.to_param }, valid_session
+      advisory = server.advisory.create valid_attributes
+      get :show, { server_id: server.id, id: advisory.to_param }, valid_session
       expect(assigns(:advisory)).to eq(advisory)
     end
   end
@@ -62,40 +62,45 @@ RSpec.describe AdvisoriesController, type: :controller do
 
   describe 'GET edit' do
     it 'assigns the requested advisory as @advisory' do
-      advisory = Advisory.create! valid_attributes
-      get :edit, { id: advisory.to_param }, valid_session
+      advisory = server.advisory.create valid_attributes
+      get :edit, { server_id: server.id, id: advisory.to_param }, valid_session
       expect(assigns(:advisory)).to eq(advisory)
     end
   end
 
   describe 'POST create' do
     describe 'with valid params' do
+      let(:params) { { server_id: server.id, advisory: valid_attributes } }
+
       it 'creates a new Advisory' do
         expect do
-          post :create, { advisory: valid_attributes }, valid_session
+          post :create, params, valid_session
         end.to change(Advisory, :count).by(1)
       end
 
       it 'assigns a newly created advisory as @advisory' do
-        post :create, { advisory: valid_attributes }, valid_session
+        post :create, params, valid_session
         expect(assigns(:advisory)).to be_a(Advisory)
         expect(assigns(:advisory)).to be_persisted
       end
 
       it 'redirects to the created advisory' do
-        post :create, { advisory: valid_attributes }, valid_session
-        expect(response).to redirect_to(Advisory.last)
+        post :create, params, valid_session
+        path = "/servers/#{server.id}/advisories/#{server.advisory.last.id}"
+        expect(response).to redirect_to path
       end
     end
 
     describe 'with invalid params' do
+      let(:params) { { server_id: server.id, advisory: invalid_attributes } }
+
       it 'assigns a newly created but unsaved advisory as @advisory' do
-        post :create, { advisory: invalid_attributes }, valid_session
+        post :create, params, valid_session
         expect(assigns(:advisory)).to be_a_new(Advisory)
       end
 
       it "re-renders the 'new' template" do
-        post :create, { advisory: invalid_attributes }, valid_session
+        post :create, params, valid_session
         expect(response).to render_template('new')
       end
     end
@@ -109,51 +114,61 @@ RSpec.describe AdvisoriesController, type: :controller do
 
       it 'updates the requested advisory' do
         advisory = Advisory.create! valid_attributes
-        put :update, { id: advisory.to_param, advisory: new_attributes }, valid_session
+        put :update, { server_id: server.id, id: advisory.to_param, advisory: new_attributes }, valid_session
         advisory.reload
         skip('Add assertions for updated state')
       end
 
       it 'assigns the requested advisory as @advisory' do
-        advisory = Advisory.create! valid_attributes
-        put :update, { id: advisory.to_param, advisory: valid_attributes }, valid_session
+        advisory = server.advisory.create valid_attributes
+        put :update, { server_id: server.id, id: advisory.to_param, advisory: valid_attributes }, valid_session
         expect(assigns(:advisory)).to eq(advisory)
       end
 
       it 'redirects to the advisory' do
-        advisory = Advisory.create! valid_attributes
-        put :update, { id: advisory.to_param, advisory: valid_attributes }, valid_session
-        expect(response).to redirect_to(advisory)
+        advisory = server.advisory.create valid_attributes
+        put :update, { server_id: server.id, id: advisory.to_param, advisory: valid_attributes }, valid_session
+        path = "/servers/#{server.id}/advisories/#{server.advisory.last.id}"
+        expect(response).to redirect_to(path)
       end
     end
 
     describe 'with invalid params' do
+      let(:advisory) { server.advisory.create valid_attributes }
+
+      let(:params) do
+        {
+          server_id: server.id,
+          id: advisory.to_param,
+          advisory: invalid_attributes
+        }
+      end
+
       it 'assigns the advisory as @advisory' do
-        advisory = Advisory.create! valid_attributes
-        put :update, { id: advisory.to_param, advisory: invalid_attributes }, valid_session
+        put :update, params, valid_session
         expect(assigns(:advisory)).to eq(advisory)
       end
 
       it "re-renders the 'edit' template" do
-        advisory = Advisory.create! valid_attributes
-        put :update, { id: advisory.to_param, advisory: invalid_attributes }, valid_session
+        put :update, params, valid_session
         expect(response).to render_template('edit')
       end
     end
   end
 
   describe 'DELETE destroy' do
+    let!(:advisory) { server.advisory.create valid_attributes }
+    let!(:params) { { server_id: server.id, id: advisory.to_param } }
+
     it 'destroys the requested advisory' do
-      advisory = Advisory.create! valid_attributes
       expect do
-        delete :destroy, { id: advisory.to_param }, valid_session
+        delete :destroy, params, valid_session
       end.to change(Advisory, :count).by(-1)
     end
 
     it 'redirects to the advisories list' do
-      advisory = Advisory.create! valid_attributes
-      delete :destroy, { id: advisory.to_param }, valid_session
-      expect(response).to redirect_to(advisories_url)
+      delete :destroy, params, valid_session
+      expect(response).to redirect_to(server_advisories_url)
     end
   end
 
