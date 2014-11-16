@@ -24,11 +24,11 @@ RSpec.describe ServersController, type: :controller do
   # Server. As you add validations to Server, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
+    { name: 'www.example.com' }
   end
 
   let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
+    { name: ' '}
   end
 
   # This should return the minimal set of values that should be in the session
@@ -103,39 +103,40 @@ RSpec.describe ServersController, type: :controller do
   describe 'PUT update' do
     describe 'with valid params' do
       let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
+        { name: 'news.example.com' }
       end
 
+      let(:server)  { Server.create! valid_attributes }
+      let(:server_id) { server.to_param }
+
       it 'updates the requested server' do
-        server = Server.create! valid_attributes
-        put :update, { id: server.to_param, server: new_attributes }, valid_session
+        put :update, { id: server_id, server: new_attributes }, valid_session
         server.reload
-        skip('Add assertions for updated state')
+        expect(assigns(:server).name).to eq new_attributes[:name]
       end
 
       it 'assigns the requested server as @server' do
-        server = Server.create! valid_attributes
-        put :update, { id: server.to_param, server: valid_attributes }, valid_session
+        put :update, { id: server_id, server: valid_attributes }, valid_session
         expect(assigns(:server)).to eq(server)
       end
 
       it 'redirects to the server' do
-        server = Server.create! valid_attributes
-        put :update, { id: server.to_param, server: valid_attributes }, valid_session
+        put :update, { id: server_id, server: valid_attributes }, valid_session
         expect(response).to redirect_to(server)
       end
     end
 
     describe 'with invalid params' do
+      let(:server) { Server.create! valid_attributes }
+      let(:params) { { id: server.to_param, server: invalid_attributes } }
+
       it 'assigns the server as @server' do
-        server = Server.create! valid_attributes
-        put :update, { id: server.to_param, server: invalid_attributes }, valid_session
+        put :update, params, valid_session
         expect(assigns(:server)).to eq(server)
       end
 
       it "re-renders the 'edit' template" do
-        server = Server.create! valid_attributes
-        put :update, { id: server.to_param, server: invalid_attributes }, valid_session
+        put :update, params, valid_session
         expect(response).to render_template('edit')
       end
     end
@@ -155,5 +156,4 @@ RSpec.describe ServersController, type: :controller do
       expect(response).to redirect_to(servers_url)
     end
   end
-
 end
