@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     resources :advisories
   end
 
+  match '/send_test_mail', to: 'advisories#send_test_mail', via: 'get'
+
   # The priority is based upon order of creation: first created ->
   # highest priority.
   # See how all your routes lay out with "rake routes".

@@ -28,7 +28,7 @@ RSpec.describe ServersController, type: :controller do
   end
 
   let(:invalid_attributes) do
-    { name: ' '}
+    { name: ' ' }
   end
 
   # This should return the minimal set of values that should be in the session

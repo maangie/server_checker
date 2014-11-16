@@ -5,7 +5,7 @@ BASE = '/servers/1/advisories'
 # /servers/1/advisories/xxx に対するマッチャ
 RSpec::Matchers.define :route_to_advisories do |r|
   match do |actual|
-    r[:id] = r[:id].to_s if r.has_key?(:id)
+    r[:id] = r[:id].to_s if r.key?(:id)
     expected = { controller: 'advisories', server_id: '1' }.merge(r)
     route_to(expected).matches?(actual)
   end

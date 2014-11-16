@@ -1,0 +1,2 @@
+#!/bin/sh
+MAIL_NAME='foo@example.com' MAIL_PASS='foobar' rails s

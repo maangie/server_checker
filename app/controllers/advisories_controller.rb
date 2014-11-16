@@ -1,6 +1,7 @@
 class AdvisoriesController < ApplicationController
   before_filter :load_advisory
-  before_action :set_advisory, only: [:show, :edit, :update, :destroy]
+  before_action :set_advisory,
+                only: [:show, :edit, :update, :destroy, :send_test_mail]
 
   # GET /advisories
   # GET /advisories.json
@@ -78,6 +79,12 @@ class AdvisoriesController < ApplicationController
 
       format.json { head :no_content }
     end
+  end
+
+  def send_test_mail
+    NoticeMailer.sendmail_confirm(@advisory.email).deliver
+    redirect_to server_advisory_url(@server, @advisory),
+                notice: t('notice.sent')
   end
 
   private

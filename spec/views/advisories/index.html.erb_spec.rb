@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'advisories/index', type: :view do
   before(:each) do
-    @server = FactoryGirl.create(:server, id: 100000)
+    @server = FactoryGirl.create(:server, id: 100_000)
     assign :server, @server
 
     FactoryGirl.create(:advisory, server: @server)

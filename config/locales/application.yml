@@ -2,3 +2,12 @@ ja:
   helpers:
     links:
       advisory: "通知先"
+      send_test_mail: "テストメイル送信"
+  notice:
+    sent: "送信しました"
+
+en:
+  helpers:
+    links:
+      advisory: "Advisory"
+      send_test_mail: "Send Test Mail"
