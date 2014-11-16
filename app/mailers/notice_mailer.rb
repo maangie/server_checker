@@ -1,5 +1,4 @@
 class NoticeMailer < ActionMailer::Base
-  binding.pry
   default from: Rails.application.secrets.mail['name']
 
   # Subject can be set in your I18n file at config/locales/en.yml
