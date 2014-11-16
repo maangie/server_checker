@@ -2,9 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'advisories/show', type: :view do
   before(:each) do
-    @server = FactoryGirl.create(:server)
-    assign(:server, @server)
-    assign(:advisory, @server.advisory.create(email: 'Email'))
+    @advisory = FactoryGirl.create(:advisory)
+    @server = @advisory.server
   end
 
   it 'renders attributes in <p>' do
