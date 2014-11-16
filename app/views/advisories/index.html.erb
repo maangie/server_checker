@@ -3,25 +3,24 @@
   <h1>
     <%=t '.title', default: model_class.model_name.human.pluralize.titleize %>
   </h1>
+  <h2><%= @server.name %></h2>
 </div>
 <table class='table table-striped'>
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:server_id) %></th>
       <th><%= model_class.human_attribute_name(:email) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t('helpers.actions') %></th>
     </tr>
   </thead>
   <tbody>
-    <% @server.advisory.each do |advisory| %>
+    <% @server.advisories.each do |advisory| %>
       <tr>
         <td>
 	  <%= link_to advisory.id, server_advisory_path(@server, advisory) %>
 	</td>
 
-        <td><%= advisory.server_id %></td>
         <td><%= advisory.email %></td>
         <td><%= l advisory.created_at %></td>
         <td>
@@ -47,3 +46,12 @@
 <%= link_to(t('.new', default: t('helpers.links.new')),
 	    new_server_advisory_path(@server),
             class: 'btn btn-primary') %>
+
+<%= link_to(t('.send_server_status',
+	      default: t('helpers.links.send_server_status')),
+	    send_server_status_to_advisories_path(server_id: @server.id),
+	    data: {
+	    confirm: t('.confirm', default: t('helpers.links.confirm',
+					      default: 'Are you sure?')) },
+	    class: 'btn btn-default') %>
+

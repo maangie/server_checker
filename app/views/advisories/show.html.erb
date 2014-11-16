@@ -17,8 +17,9 @@
             edit_server_advisory_path(@server, @advisory),
 	    class: 'btn btn-default') %>
 
-<%= link_to(t('.send_test_mail', default: t('helpers.links.send_test_mail')),
-	    send_test_mail_path(server_id: @server.id, id: @advisory.id),
+<%= link_to(t('.send_server_status',
+	      default: t('helpers.links.send_server_status')),
+	    send_server_status_path(server_id: @server.id, id: @advisory.id),
             data: {
 	      confirm: t('.confirm', default: t('helpers.links.confirm',
 						default: 'Are you sure?')) },

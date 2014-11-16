@@ -6,9 +6,8 @@ class NoticeMailer < ActionMailer::Base
   #
   #   en.notice_mailer.sendmail_confirm.subject
   #
-  def sendmail_confirm(to)
-    @greeting = 'Hi'
-
+  def sendmail_confirm(to, server)
+    @server = server
     mail to: to
   end
 end

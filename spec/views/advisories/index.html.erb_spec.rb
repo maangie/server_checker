@@ -11,7 +11,8 @@ RSpec.describe 'advisories/index', type: :view do
 
   it 'renders a list of advisories' do
     render
-    assert_select 'tr>td', text: @server.id.to_s, count: 2
+    assert_select 'h1', 'Advisories'
+    assert_select 'h2', @server.name
     assert_select 'tr>td', text: 'foo@example.com', count: 2
   end
 end

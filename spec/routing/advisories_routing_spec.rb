@@ -41,5 +41,17 @@ RSpec.describe AdvisoriesController, type: :routing do
       expect(delete: "#{BASE}/1").to route_to_advisories action: 'destroy',
                                                          id: 1
     end
+
+    it 'routes to #send_server_status' do
+      name = 'send_server_status'
+      expect(get: "/#{name}").to route_to controller: 'advisories',
+                                          action: name
+    end
+
+    it 'routes to #send_server_status_to_advisories' do
+      name = 'send_server_status_to_advisories'
+      expect(get: "/#{name}").to route_to controller: 'advisories',
+                                          action: name
+    end
   end
 end

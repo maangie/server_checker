@@ -39,7 +39,7 @@ RSpec.describe AdvisoriesController, type: :controller do
 
   describe 'GET index' do
     it 'assigns all advisories as @advisories' do
-      advisory = server.advisory.create valid_attributes
+      advisory = server.advisories.create valid_attributes
       get :index, { server_id: server.id }, valid_session
       expect(assigns(:advisories)).to eq([advisory])
     end
@@ -47,7 +47,7 @@ RSpec.describe AdvisoriesController, type: :controller do
 
   describe 'GET show' do
     it 'assigns the requested advisory as @advisory' do
-      advisory = server.advisory.create valid_attributes
+      advisory = server.advisories.create valid_attributes
       get :show, { server_id: server.id, id: advisory.to_param }, valid_session
       expect(assigns(:advisory)).to eq(advisory)
     end
@@ -62,7 +62,7 @@ RSpec.describe AdvisoriesController, type: :controller do
 
   describe 'GET edit' do
     it 'assigns the requested advisory as @advisory' do
-      advisory = server.advisory.create valid_attributes
+      advisory = server.advisories.create valid_attributes
       get :edit, { server_id: server.id, id: advisory.to_param }, valid_session
       expect(assigns(:advisory)).to eq(advisory)
     end
@@ -86,7 +86,7 @@ RSpec.describe AdvisoriesController, type: :controller do
 
       it 'redirects to the created advisory' do
         post :create, params, valid_session
-        path = "/servers/#{server.id}/advisories/#{server.advisory.last.id}"
+        path = "/servers/#{server.id}/advisories/#{server.advisories.last.id}"
         expect(response).to redirect_to path
       end
     end
@@ -113,7 +113,7 @@ RSpec.describe AdvisoriesController, type: :controller do
       end
 
       it 'updates the requested advisory' do
-        advisory = server.advisory.create valid_attributes
+        advisory = server.advisories.create valid_attributes
 
         params = {
           server_id: server.id,
@@ -127,7 +127,7 @@ RSpec.describe AdvisoriesController, type: :controller do
       end
 
       it 'assigns the requested advisory as @advisory' do
-        advisory = server.advisory.create valid_attributes
+        advisory = server.advisories.create valid_attributes
 
         params = {
           server_id: server.id,
@@ -140,7 +140,7 @@ RSpec.describe AdvisoriesController, type: :controller do
       end
 
       it 'redirects to the advisory' do
-        advisory = server.advisory.create valid_attributes
+        advisory = server.advisories.create valid_attributes
 
         params = {
           server_id: server.id,
@@ -149,13 +149,13 @@ RSpec.describe AdvisoriesController, type: :controller do
         }
 
         put :update, params, valid_session
-        path = "/servers/#{server.id}/advisories/#{server.advisory.last.id}"
+        path = "/servers/#{server.id}/advisories/#{server.advisories.last.id}"
         expect(response).to redirect_to(path)
       end
     end
 
     describe 'with invalid params' do
-      let(:advisory) { server.advisory.create valid_attributes }
+      let(:advisory) { server.advisories.create valid_attributes }
 
       let(:params) do
         {
@@ -178,7 +178,7 @@ RSpec.describe AdvisoriesController, type: :controller do
   end
 
   describe 'DELETE destroy' do
-    let!(:advisory) { server.advisory.create valid_attributes }
+    let!(:advisory) { server.advisories.create valid_attributes }
     let!(:params) { { server_id: server.id, id: advisory.to_param } }
 
     it 'destroys the requested advisory' do
@@ -193,4 +193,30 @@ RSpec.describe AdvisoriesController, type: :controller do
     end
   end
 
+  describe 'メイル' do
+    subject { response }
+
+    describe 'サーバの状態を送信する' do
+      let(:advisory) { server.advisories.create valid_attributes }
+
+      before do
+        get :send_server_status,
+            { server_id: server.id, id: advisory.to_param }, valid_session
+      end
+
+      it { is_expected.to redirect_to(server_advisory_url(server, advisory)) }
+    end
+
+    describe 'サーバの状態を全ての報告先に送信する' do
+      before do
+        FactoryGirl.create(:advisory, server: server) 
+        FactoryGirl.create(:advisory, email: 'bar@example.com', server: server)
+
+        get :send_server_status_to_advisories, {server_id: server.id },
+            valid_session
+      end
+
+      it { is_expected.to redirect_to(server_advisories_url(server)) }
+    end
+  end
 end

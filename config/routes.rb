@@ -4,7 +4,10 @@ Rails.application.routes.draw do
     resources :advisories
   end
 
-  match '/send_test_mail', to: 'advisories#send_test_mail', via: 'get'
+  match '/send_server_status', to: 'advisories#send_server_status', via: 'get'
+
+  match '/send_server_status_to_advisories',
+        to: 'advisories#send_server_status_to_advisories', via: 'get'
 
   # The priority is based upon order of creation: first created ->
   # highest priority.

@@ -1,7 +1,10 @@
+# 通知先
 class AdvisoriesController < ApplicationController
+  include ApplicationHelper
+
   before_filter :load_advisory
   before_action :set_advisory,
-                only: [:show, :edit, :update, :destroy, :send_test_mail]
+                only: [:show, :edit, :update, :destroy, :send_server_status]
 
   # GET /advisories
   # GET /advisories.json
@@ -16,7 +19,7 @@ class AdvisoriesController < ApplicationController
 
   # GET /advisories/new
   def new
-    @advisory = @server.advisory.build
+    @advisory = @server.advisories.build
   end
 
   # GET /advisories/1/edit
@@ -26,44 +29,32 @@ class AdvisoriesController < ApplicationController
   # POST /advisories
   # POST /advisories.json
   def create
-    @advisory = @server.advisory.build(advisory_params)
+    @advisory = @server.advisories.build(advisory_params)
+
+    @advisory.save || (render_unprocessable_entity(:new) && return)
 
     respond_to do |format|
-      if @advisory.save
-        format.html do
-          redirect_to [@server, @advisory],
-                      notice: 'Advisory was successfully created.'
-        end
-
-        format.json { render :show, status: :created, location: @advisory }
-      else
-        format.html { render :new }
-
-        format.json do
-          render json: @advisory.errors, status: :unprocessable_entity
-        end
+      format.html do
+        redirect_to [@server, @advisory], notice: t('notice.create_advisory')
       end
+
+      format.json { render :show, status: :created, location: @advisory }
     end
   end
 
   # PATCH/PUT /advisories/1
   # PATCH/PUT /advisories/1.json
   def update
+    @advisory.update(advisory_params) ||
+      (render_unprocessable_entity(:edit) && return)
+
     respond_to do |format|
-      if @advisory.update(advisory_params)
-        format.html do
-          redirect_to [@server, @advisory],
-                      notice: 'Advisory was successfully updated.'
-        end
-
-        format.json { render :show, status: :ok, location: @advisory }
-      else
-        format.html { render :edit }
-
-        format.json do
-          render json: @advisory.errors, status: :unprocessable_entity
-        end
+      format.html do
+        redirect_to [@server, @advisory],
+                    notice: 'Advisory was successfully updated.'
       end
+
+      format.json { render :show, status: :ok, location: @advisory }
     end
   end
 
@@ -81,17 +72,35 @@ class AdvisoriesController < ApplicationController
     end
   end
 
-  def send_test_mail
-    NoticeMailer.sendmail_confirm(@advisory.email).deliver
+  # サーバの状態を送信する
+  def send_server_status
+    NoticeMailer.sendmail_confirm(@advisory.email, @advisory.server).deliver
     redirect_to server_advisory_url(@server, @advisory),
                 notice: t('notice.sent')
   end
 
+  # サーバの状態を全ての報告先にメイルする
+  def send_server_status_to_advisories
+    send_server_status_to_advisories_helper(@server, nil)
+    redirect_to server_advisories_url(@server), notice: t('notice.sent')
+  end
+
   private
+
+  # create, patch, put が失敗した時の render
+  def render_unprocessable_entity(action)
+    respond_to do |format|
+      format.html { render action }
+
+      format.json do
+        render json: @advisory.errors, status: :unprocessable_entity
+      end
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_advisory
-    @advisory = @server.advisory.find(params[:id])
+    @advisory = @server.advisories.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the

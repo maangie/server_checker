@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'advisories/new', type: :view do
   before(:each) do
     @server = FactoryGirl.create(:server)
-    assign(:advisory, @server.advisory.build(email: 'MyString'))
+    assign(:advisory, @server.advisories.build(email: 'MyString'))
   end
 
   it 'renders new advisory form' do

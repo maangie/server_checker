@@ -1,5 +1,4 @@
-<h1>NoticeMailer#sendmail_confirm</h1>
+<h1><%= t('mail.notify_server_status') %></h1>
 
-<p>
-  <%= @greeting %>, find me in app/views/notice_mailer/sendmail_confirm.html.erb
-</p>
+<p><%= t('mail.name') %>: <%= @server.name %></p>
+<p><%= t('mail.status') %>: <%= @server.status.message %>

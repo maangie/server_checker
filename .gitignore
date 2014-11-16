@@ -24,6 +24,8 @@ doc/
 .DS_Store
 .idea
 .secret
+#*
+.#*
 
 # etc
-/rails_server_development.sh
+/env.sh

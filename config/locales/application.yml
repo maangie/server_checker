@@ -2,9 +2,14 @@ ja:
   helpers:
     links:
       advisory: "通知先"
-      send_test_mail: "テストメイル送信"
+      send_server_status: "サーバ状態送信"
   notice:
+    create_advisory: "通知先を作成しました"
     sent: "送信しました"
+  mail:
+    notify_server_status: 'サーバの状態をお知らせします'
+    name: 'サーバ名'
+    status: '状態'
 
 en:
   helpers:
