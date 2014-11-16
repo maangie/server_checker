@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'servers#index'
   resources :servers do
     resources :advisories
   end
