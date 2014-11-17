@@ -7,9 +7,10 @@ ja:
     create_advisory: "通知先を作成しました"
     sent: "送信しました"
   mail:
-    notify_server_status: 'サーバの状態をお知らせします'
-    name: 'サーバ名'
-    status: '状態'
+    notify_server_status: "サーバの状態をお知らせします"
+    name: "サーバ名"
+    status: "状態"
+    do_not_reply: "このメイルには返信しないで下さい。"
 
 en:
   helpers:
