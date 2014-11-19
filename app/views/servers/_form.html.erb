@@ -1,5 +1,5 @@
-<%= form_for @server, :html => { :class => 'form-horizontal server' } do |f| %>
-    <% if @server.errors.any? %>
+<%= form_for @server, html: { class: 'form-horizontal server' } do |f| %>
+  <% if @server.errors.any? %>
     <div id='error_expl' class='panel panel-danger'>
       <div class='panel-heading'>
         <h3 class='panel-title'>
@@ -8,24 +8,43 @@
       </div>
       <div class='panel-body'>
         <ul>
-        <% @server.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
+          <% @server.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
         </ul>
       </div>
     </div>
   <% end %>
 
   <div class='control-group'>
-    <%= f.label :name, :class => 'control-label' %>
+    <%= f.label :name, class: 'control-label' %>
     <div class='controls'>
-      <%= f.text_field :name, :class => 'form-control' %>
+      <%= f.text_field :name, class: 'form-control' %>
     </div>
+
+    <%= f.label :check_type, class: 'control-label' %>
+    <div class="controls">
+      <div class="col-sm-10">
+	<div class="radio">
+          <label>
+	    <% binding.pry %>
+	    <%= f.radio_button('checker', 'HTTP') %>
+            radio 1
+	  </label>
+	</div>
+	<div class="radio">
+          <label>
+	    <%= f.radio_button('checker', 'SSH') %>
+            radio 2
+          </label>
+	</div>
+      </div>
+    </div>
+
     <%= error_span(@server[:name]) %>
   </div>
 
-
-  <%= f.submit nil, :class => 'btn btn-primary' %>
-  <%= link_to t('.cancel', :default => t('helpers.links.cancel')),
-            servers_path, :class => 'btn btn-default' %>
+  <%= f.submit nil, class: 'btn btn-primary' %>
+  <%= link_to(t('.cancel', default: t('helpers.links.cancel')),
+	      servers_path, class: 'btn btn-default') %>
 <% end %>

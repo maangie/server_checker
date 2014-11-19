@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141119112304) do
+ActiveRecord::Schema.define(version: 20141125025200) do
 
   create_table "advisories", force: true do |t|
     t.integer  "server_id"
@@ -22,11 +22,28 @@ ActiveRecord::Schema.define(version: 20141119112304) do
 
   add_index "advisories", ["server_id"], name: "index_advisories_on_server_id"
 
+  create_table "checkers", force: true do |t|
+    t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "server_id"
+  end
+
+  create_table "checkers_http_checkers", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "checkers_ssh_checkers", force: true do |t|
+    t.text     "command"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "servers", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "check_type"
   end
 
 end

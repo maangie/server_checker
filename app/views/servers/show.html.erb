@@ -8,6 +8,11 @@
   <dd><%= @server.name %></dd>
   <dt><strong><%= model_class.human_attribute_name(:status) %>:</strong></dt>
   <dd><%= @server.status.message %></dd>
+  
+  <% if false %>
+  <dt><strong><%= model_class.human_attribute_name(:check_type) %>:</strong></dt>
+  <dd><%= @server.check_type %></dd>
+  <% end %>
 </dl>
 
 <%= link_to(t('.advisory', default: t('helpers.links.advisory')),

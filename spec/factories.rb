@@ -1,7 +1,11 @@
 FactoryGirl.define do
+  factory :checker do
+    type 1
+  end
+
   factory :server do
     name 'www.example.com'
-    check_type 1
+    checker
   end
 
   factory :advisory do

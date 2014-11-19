@@ -14,23 +14,47 @@ RSpec.describe 'Servers', type: :request do
     subject { @server }
 
     it { is_expected.to respond_to :name }
-    it { is_expected.to respond_to :check_type }
+    it { is_expected.to respond_to :checker }
 
     it { is_expected.to be_valid }
+    specify { expect(@server.checker).to be_valid }
+  end
 
-    describe 'Check Type が nil の際' do
-      before { @server.check_type = nil }
-      it { is_expected.not_to be_valid }
+  describe 'チェッカについて' do
+    before { @server = FactoryGirl.build(:server) }
+
+    subject { @server.checker }
+    
+    it { is_expected.to be_valid }
+  end
+
+  describe '登録ページ' do
+    before { visit new_server_path }
+    subject { page }
+    it { is_expected.to have_content('新規 Server') }
+  end
+
+  describe '登録する' do
+    subject { page }
+
+    before do
+      visit new_server_path
+      fill_in 'Name', with: 'www.example.com'
     end
 
-    describe 'Check Type が 1 未満の際' do
-      before { @server.check_type = 0 }
-      it { is_expected.not_to be_valid }
+    it 'と増える' do
+      expect do
+        click_button I18n.t('helpers.submit.create')
+      end.to change(Server, :count).by(1)
     end
+  end
 
-    describe 'Check Type が 2 より大きい際' do
-      before { @server.check_type = 3 }
-      it { is_expected.not_to be_valid }
+  describe 'チェッカ' do
+    it '作成'  do
+      visit new_server_path
+      fill_in 'Name', with: 'www.example.com'
+      click_button I18n.t('helpers.submit.create')
+      expect(Server.last.checker).to be_a Checker
     end
   end
 end

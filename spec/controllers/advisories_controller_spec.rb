@@ -209,10 +209,10 @@ RSpec.describe AdvisoriesController, type: :controller do
 
     describe 'サーバの状態を全ての報告先に送信する' do
       before do
-        FactoryGirl.create(:advisory, server: server) 
+        FactoryGirl.create(:advisory, server: server)
         FactoryGirl.create(:advisory, email: 'bar@example.com', server: server)
 
-        get :send_server_status_to_advisories, {server_id: server.id },
+        get :send_server_status_to_advisories, { server_id: server.id },
             valid_session
       end
 

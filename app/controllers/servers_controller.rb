@@ -18,6 +18,9 @@ class ServersController < ApplicationController
   # GET /servers/new
   def new
     @server = Server.new
+    @server.build_checker(type: 'HTTP')
+    puts "**** @server: #{@server.inspect}"
+    puts "**** @server.checker: #{@server.checker.inspect}"
   end
 
   # GET /servers/1/edit
@@ -29,7 +32,10 @@ class ServersController < ApplicationController
   def create
     @server = Server.new(server_params)
 
-    @server.save || (render_unprocessable_entity(@server, :new) && return)
+    unless @server.save
+      render_unprocessable_entity(@server, :new)
+      return
+    end
 
     respond_to do |format|
       format.html { redirect_to @server, notice: t('notice.create_server') }
@@ -69,6 +75,6 @@ class ServersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the
   # white list through.
   def server_params
-    params.require(:server).permit(:name)
+    params.require(:server).permit(:name, :check_type, :checker)
   end
 end
