@@ -24,11 +24,11 @@ RSpec.describe ServersController, type: :controller do
   # Server. As you add validations to Server, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { name: 'www.example.com' }
+    { name: 'www.example.com', check_type: 1 }
   end
 
   let(:invalid_attributes) do
-    { name: ' ' }
+    { name: ' ', check_type: 3 }
   end
 
   # This should return the minimal set of values that should be in the session

@@ -4,6 +4,7 @@ require 'net/http'
 class Server < ActiveRecord::Base
   has_many :advisories
   validates :name, presence: true
+  validates :check_type, inclusion: { in: 1..2 }
 
   # 状態を確認する
   def check_status
