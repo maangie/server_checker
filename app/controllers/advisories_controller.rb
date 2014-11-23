@@ -1,6 +1,7 @@
 # 通知先
 class AdvisoriesController < ApplicationController
   include ApplicationHelper
+  include RenderHelper
 
   before_filter :load_advisory
   before_action :set_advisory,
@@ -31,7 +32,7 @@ class AdvisoriesController < ApplicationController
   def create
     @advisory = @server.advisories.build(advisory_params)
 
-    @advisory.save || (render_unprocessable_entity(:new) && return)
+    @advisory.save || (render_unprocessable_entity(@advisory, :new) && return)
 
     respond_to do |format|
       format.html do
@@ -46,7 +47,7 @@ class AdvisoriesController < ApplicationController
   # PATCH/PUT /advisories/1.json
   def update
     @advisory.update(advisory_params) ||
-      (render_unprocessable_entity(:edit) && return)
+      (render_unprocessable_entity(@advisory, :edit) && return)
 
     respond_to do |format|
       format.html do
@@ -86,17 +87,6 @@ class AdvisoriesController < ApplicationController
   end
 
   private
-
-  # create, patch, put が失敗した時の render
-  def render_unprocessable_entity(action)
-    respond_to do |format|
-      format.html { render action }
-
-      format.json do
-        render json: @advisory.errors, status: :unprocessable_entity
-      end
-    end
-  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_advisory

@@ -7,7 +7,15 @@ class Server < ActiveRecord::Base
 
   # 状態を確認する
   def check_status
-    @status = Net::HTTP.get_response(name, '/')
+    http = Net::HTTP.new(name, 80)
+    http.open_timeout = 3
+    http.read_timeout = 3
+
+    @status = http.request_head('/')
+  rescue Timeout::Error
+    @status = Net::HTTPResponse.new(nil, 408, $ERROR_INFO.cause.to_s)
+  ensure
+    http.finish if http.started?
   end
 
   # 状態を得る
