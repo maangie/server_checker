@@ -4,6 +4,9 @@ ja:
       advisory: "通知先"
       send_server_status: "サーバ状態送信"
   notice:
+    create_server: 'サーバを監視対象に追加しました'
+    update_server: 'サーバ情報を更新しました'
+    delete_server: 'サーバを監視対象から外しました'
     create_advisory: "通知先を作成しました"
     sent: "送信しました"
   mail:
@@ -17,3 +20,7 @@ en:
     links:
       advisory: "Advisory"
       send_test_mail: "Send Test Mail"
+  notice:
+    create_server: 'Server was successfully created.'
+    update_server: 'Server was successfully updated.'
+    delete_server: 'Server was successfully destroyed.'
