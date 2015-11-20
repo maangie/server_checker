@@ -82,7 +82,7 @@ class AdvisoriesController < ApplicationController
 
   # サーバの状態を全ての報告先にメイルする
   def send_server_status_to_advisories
-    send_server_status_to_advisories_helper @server
+    send_server_status_to_advisories_helper(@server) { |status| true }
     redirect_to server_advisories_url(@server), notice: t('notice.sent')
   end
 
