@@ -29,3 +29,6 @@ doc/
 
 # etc
 /env.sh
+
+# secret file.
+/.env

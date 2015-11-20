@@ -20,6 +20,8 @@ group :development, :test do
   gem 'pry-stack_explorer'
   gem 'hirb'
   gem 'hirb-unicode'
+
+  gem 'dotenv-rails' # loads environment variables from `.env`.
 end
 
 group :test do
