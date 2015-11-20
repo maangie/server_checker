@@ -18,7 +18,8 @@ namespace :mail do
 
     Server.all.each do |server|
       send_server_status_to_advisories_helper(server) do |status|
-        return status >= 400 && status <= 599
+        status = status.to_i
+        next status >= 400 && status <= 599
       end
     end
 
